@@ -3,12 +3,25 @@ import os
 from dotenv import load_dotenv
 from janome.tokenizer import Tokenizer
 import re
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run_server():
+    port = int(os.getenv("PORT", 8080))
+    app.run(host='0.0.0.0', port=port)
+
+def keep_alive():
+    t = Thread(target=run_server)
+    t.start()
 
 load_dotenv()
 
-TOKEN = os.getenv('DISCORD_TOKEN')
-
-# Discordの権限設定
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
@@ -81,4 +94,8 @@ if TOKEN is None:
 else:
     print("トークンを読み込みました。ログインを開始します...")
 
-client.run(TOKEN)
+if __name__ == "__main__":
+    keep_alive()
+    TOKEN = os.getenv('DISCORD_TOKEN')
+    if TOKEN:
+        client.run(TOKEN)
