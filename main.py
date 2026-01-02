@@ -89,6 +89,9 @@ async def on_message(message):
             f"「{message.content}」"
         )
         await message.reply(response, mention_author=True)
+
+TOKEN = os.getenv('DISCORD_TOKEN')
+
 if TOKEN is None:
     print("エラー：トークンが読み込めていません。.envファイルを確認してください。")
 else:
@@ -96,6 +99,5 @@ else:
 
 if __name__ == "__main__":
     keep_alive()
-    TOKEN = os.getenv('DISCORD_TOKEN')
     if TOKEN:
         client.run(TOKEN)
