@@ -27,7 +27,7 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 # 形態素解析器の初期化
-t = Tokenizer()
+t = Tokenizer(mmap=True)
 
 def count_mora(text):
     """カタカナから音数を数える"""
